@@ -141,6 +141,8 @@ startButton.addEventListener("click", () => {
 restartButton.addEventListener("click", restartGame)
 
 function restartGame() {
+    clearInterval(intervalId);
+    clearInterval(timerIntervalId);
 
     blocks[`${food.x}-${food.y}`].classList.remove('food')
     snake.forEach(segment => {
@@ -160,6 +162,19 @@ function restartGame() {
     intervalId = setInterval(() => {
         render()
     }, 400);
+    timerIntervalId = setInterval(() => {
+        let [min, sec] = time.split(":").map(Number)
+
+        if (sec == 59) {
+            min += 1
+            sec = 0
+        } else {
+            sec += 1
+        }
+
+        time = `${min}:${sec}`
+        timeElement.innerText = time
+    }, 1000);
 }
 
 addEventListener("keydown", (event) => {
